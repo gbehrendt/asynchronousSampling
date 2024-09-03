@@ -186,33 +186,6 @@ if n == 1:
     plt.show()
 
 xStarC2D = LA.norm(xStarContArr - xStarDisArr, axis = 1)
- 
-# fig2, ax2 = plt.subplots()
-# ax2.plot(t,xStarC2D,color='r', label=r'$x^*(t) - x_{f}^*(t_\ell)$')
-# ax2.set_xlabel("Time $(s)$", fontsize =14)
-# ax2.set_ylabel(r'$ \| x*(t) - x*(t_\ell) \|$', fontsize =14)
-# ax2.grid()
-# plt.show()
-
-#%% Gurobi
-
-# Create a new model
-# m = gp.Model("Aggregate")
-# x = m.addMVar(shape=n, name="x")
-
-# obj = 0.5* x.T @ Qdis[:,:,0] @ x + rDis[:,:,0].T @ x
-# m.setObjective(obj, GRB.MINIMIZE)
-
-# x.ub = UB
-# x.lb = LB
-
-# m.optimize()
-
-# for v in m.getVars():
-#     print(f"{v.VarName} {v.X:g}")
-
-# print(f"Obj: {m.ObjVal:g}")
-
 
 #%% Implement asynchronous algorithm on sampled problem
 
@@ -234,7 +207,6 @@ iters = 500 # Number of iterations completed at each time step
 prob = 0.6 # Probability of completing operations
 probSample = 0.5
 
-
 # Define true state
 xTrue = np.empty((n,))
 for k in range(N):
@@ -242,12 +214,9 @@ for k in range(N):
     ind2 = k*ni + ni
     xTrue[ind1:ind2] = Agents[k].x[ind1:ind2]
     
-# g[0] = 0.5* xTrue.T @ Qagg @ xTrue  + rAgg.T @ xTrue
 
 xHist = []
 ss = np.zeros((n,len(td)*iters))
-# xHist.append(xTrue.copy())
-
 
 # Create a new model
 m = gp.Model("Aggregate")
@@ -418,37 +387,6 @@ ax4.set_xlabel(r"Time $(s)$", fontsize =14)
 # plt.savefig('C:/Users/gbehrendt3/OneDrive - Georgia Institute of Technology/UFstuff/Research/myPapers/Paper5/Plots/trackingError.svg', format = 'svg', bbox_inches='tight')
 plt.show()
 
-# fig = plt.figure()
-# ax5 = fig.add_subplot(111)
-# ax6 = ax5.twiny()
-# ax5.plot(iterations,xErrorA2S,color='b', label=r'$\| x^*(t_z) - x(k) \|$')
-# # ax5.set_ylim([1e-7, 1e6])
-# ax5.set_xlabel("Iterations $(k)$", fontsize =14)
-# ax5.legend(loc = 'upper left', ncol=2, fontsize =11)
-# ax5.grid()
-# ax6.set_xlim(ax5.get_xlim())
-# ax6.set_xticks(new_tick_locations)
-# ax6.set_xticklabels((new_tick_locations/500).astype(int), fontsize = 8)
-# ax6.set_xlabel(r"Time Index $(t_\ell)$", fontsize =14)
-# #plt.savefig('PythonPlotsNoTitle2/plot4.eps', format = 'eps', bbox_inches='tight')
-# plt.show()
-
-# fig = plt.figure()
-# ax9 = fig.add_subplot(111)
-# ax10 = ax9.twiny()
-# ax9.plot(iterations,xErrorD2S,color='r', label=r'$\| x_{f}^*(t_\ell) - x(k) \|$')
-# # ax3.set_ylim([1e-7, 1e6])
-# ax9.set_xlabel("Iterations $(k)$", fontsize =14)
-# ax9.legend(loc = 'upper left', ncol=1, fontsize =11)
-# ax9.grid()
-# ax10.set_xlim(ax9.get_xlim())
-# ax10.set_xticks(new_tick_locations)
-# ax10.set_xticklabels((new_tick_locations/500).astype(int), fontsize = 8)
-# ax10.set_xlabel(r"Time Index $(t_\ell)$", fontsize =14)
-# #plt.savefig('PythonPlotsNoTitle2/plot4.eps', format = 'eps', bbox_inches='tight')
-# plt.show()
-
-
 
 fig = plt.figure()
 ax7 = fig.add_subplot(111)
@@ -465,8 +403,6 @@ ax8.set_xticklabels(2*(new_tick_locations/500).astype(int), fontsize = 8)
 ax8.set_xlabel(r"Time $(s)$", fontsize =14)
 # plt.savefig('C:/Users/gbehrendt3/OneDrive - Georgia Institute of Technology/UFstuff/Research/myPapers/Paper5/Plots/alphaBeta.svg', format = 'svg', bbox_inches='tight')
 plt.show()
-
-
 
 
 #%%
